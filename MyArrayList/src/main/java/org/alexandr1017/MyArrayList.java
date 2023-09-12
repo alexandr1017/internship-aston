@@ -218,6 +218,36 @@ public class MyArrayList<E> implements Iterable<E> {
     }
 
     /**
+     * Находит индекс искомого элемента в отсортированном массиве с использованием заданного компаратора методом binary search.
+     *
+     * @param item       искомый элемент
+     * @param comparator компаратор для сравнения элементов
+     * @return индекс найденного элемента массива, либо -1, если поиск не дал результата
+     */
+    public int search(E item, Comparator<? super E> comparator) {
+        trimToSize();
+        return binarySearch((E[]) elements, item, comparator);
+    }
+
+    private int binarySearch(E[] array, E item, Comparator<? super E> comparator) {
+        int low = 0;
+        int high = array.length - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            E guess = array[mid];
+            int compare = comparator.compare(guess, item);
+            if (compare == 0) {
+                return mid;
+            } else if (compare < 0) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Быстрая сортировка элементов массива с использованием заданного компаратора.
      *
      * @param array      массив для сортировки

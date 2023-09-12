@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -176,6 +177,16 @@ class MyArrayListTest {
         Method method = MyArrayList.class.getDeclaredMethod("validIndex", int.class);
         method.setAccessible(true);
         Assertions.assertDoesNotThrow(() -> method.invoke(list, 0));
+    }
+
+    @Test
+    public void testBinarySearch() {
+        MyArrayList<BigInteger> list = new MyArrayList<>();
+        for (int i = 0; i < 1_000_000; i++) {
+            list.add(BigInteger.valueOf(i).multiply(BigInteger.TEN));
+        }
+        assertEquals(list.search(BigInteger.valueOf(500_000L), BigInteger::compareTo), 50000);
+
     }
 
 }
